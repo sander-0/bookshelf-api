@@ -1,12 +1,26 @@
-import express, { json } from 'express';
-import router from './routes/route.js';
+import Hapi from '@hapi/hapi';
+import routes from './routes/route.js';
 
-const app = express();
-app.use(json());
+const init = async () => {
+  const server = Hapi.server({
+    port: 9000,
+    host: 'localhost',
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
+  });
 
-app.use(router);
+  server.route(routes);
 
-const PORT = 9000;
-app.listen(PORT, () => {
-  console.log(`Server berjalan pada port ${PORT}`);
+  await server.start();
+  console.log(`Server berjalan pada ${server.info.uri}`);
+};
+
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  process.exit(1);
 });
+
+init();
