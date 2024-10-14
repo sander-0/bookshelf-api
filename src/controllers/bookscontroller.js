@@ -43,7 +43,7 @@ const addBook = (req, res) => {
   });
 };
 
-// Menampilkan seluruh buku dengan query parameters
+// Menampilkan seluruh buku dengan query parameter
 const getAllBooks = (req, res) => {
   const { name, reading, finished } = req.query;
 
